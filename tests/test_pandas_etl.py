@@ -1,37 +1,34 @@
 #!/usr/bin/env python
 
 """Tests for `pandas_etl` package."""
+from unittest.mock import patch
 
 import pytest
 
 from click.testing import CliRunner
 
-from pandas_etl import pandas_etl
-from pandas_etl import cli
+from pandas_etl import simple_etl
+from pandas_etl import runner
 
 
 @pytest.fixture
 def response():
-    """Sample pytest fixture.
-
-    See more at: http://doc.pytest.org/en/latest/fixture.html
-    """
-    # import requests
-    # return requests.get('https://github.com/audreyr/cookiecutter-pypackage')
+    pass
 
 
 def test_content(response):
-    """Sample pytest test function with the pytest fixture as an argument."""
-    # from bs4 import BeautifulSoup
-    # assert 'GitHub' in BeautifulSoup(response.content).title.string
+    pass
 
 
-def test_command_line_interface():
+@patch('pandas_etl.runner.SimpleETL', autospec=True)
+def test_command_line_interface(mock_etl):
     """Test the CLI."""
-    runner = CliRunner()
-    result = runner.invoke(cli.main)
+    mock_etl_instance = mock_etl.return_value
+    cli = CliRunner()
+    args = ['--input_paths', "{'order': 'order.csv'}", '--output_path', 'test_output_path']
+    result = cli.invoke(runner.main, args=args, catch_exceptions=False)
+
+    mock_etl.assert_called_once_with(input_paths={'order': 'order.csv'}, output_path="test_output_path")
+    mock_etl_instance.run.assert_called_once_with()
     assert result.exit_code == 0
-    assert 'pandas_etl.cli.main' in result.output
-    help_result = runner.invoke(cli.main, ['--help'])
-    assert help_result.exit_code == 0
-    assert '--help  Show this message and exit.' in help_result.output
+

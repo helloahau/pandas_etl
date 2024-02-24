@@ -14,7 +14,10 @@ simple etl
 Features
 --------
 
-* TODO
+command to run:
+runner.py --input_paths {'order': 'input/olist_orders_dataset.csv', 'order_item': 'input/olist_order_items_dataset.csv',
+'product':'input/olist_products_dataset.csv'} --output_path output/
+
 
 Credits
 -------

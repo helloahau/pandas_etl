@@ -30,7 +30,7 @@ setup(
     description="simple etl",
     entry_points={
         'console_scripts': [
-            'pandas_etl=pandas_etl.cli:main',
+            'pandas_etl=pandas_etl.runner:main',
         ],
     },
     install_requires=requirements,

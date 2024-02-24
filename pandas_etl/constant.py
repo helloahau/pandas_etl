@@ -1,0 +1,3 @@
+ORDER_DATASET_NAME = 'order'
+ORDER_ITEMS_DATASET_NAME = 'order_item'
+PRODUCT_DATASET_NAME = 'product'
