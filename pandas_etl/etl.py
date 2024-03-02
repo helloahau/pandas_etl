@@ -1,10 +1,13 @@
 from abc import ABC, abstractmethod
 
+from pandas_etl.utils import file_util
+
 
 class ETL(ABC):
     """define the etl steps"""
-    def __init__(self, input_paths, output_path):
-        self.input_paths = input_paths
+    def __init__(self, input_path, input_config_file, output_path):
+        self.input_path = input_path
+        self.input_config = file_util.load_yml(input_config_file)
         self.output_path = output_path
 
     @abstractmethod

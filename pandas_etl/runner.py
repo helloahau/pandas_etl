@@ -7,11 +7,11 @@ from pandas_etl.simple_etl import SimpleETL
 
 
 @click.command()
-@click.option('--input_paths')
+@click.option('--input_path')
+@click.option('--input_config_file')
 @click.option('--output_path')
-def main(input_paths, output_path):
-    input_paths_dict = ast.literal_eval(input_paths)
-    etl = SimpleETL(input_paths=input_paths_dict, output_path=output_path)
+def main(input_path, input_config_file, output_path):
+    etl = SimpleETL(input_path=input_path, input_config_file = input_config_file, output_path=output_path)
     etl.run()
     return 0
 

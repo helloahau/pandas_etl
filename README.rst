@@ -15,5 +15,4 @@ Features
 --------
 
 command to run:
-runner.py --input_paths {'order': 'input/olist_orders_dataset.csv', 'order_item': 'input/olist_order_items_dataset.csv',
-'product':'input/olist_products_dataset.csv'} --output_path output/
+runner.py --input_path /input --input_config_file config/input_data_config.yml --output_path /output

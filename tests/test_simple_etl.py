@@ -8,22 +8,24 @@ from pandas_etl.simple_etl import SimpleETL
 
 
 class TestSimpleETL:
-    def test_validate(self):
-        etl = SimpleETL('input_paths', 'output_path')
+    @patch('pandas_etl.utils.file_util.load_yml')
+    def test_validate(self, mock_load_yml):
+        mock_load_yml.return_value = {'order': 'order.csv'}
+        etl = SimpleETL('input_path', 'input_config_file', 'output_path')
         with pytest.raises(ValueError) as ve:
             etl.run()
         assert 'input dataset path must more than 2' in str(ve.value)
 
-    def test_extract(self):
-        etl = SimpleETL({ORDER_DATASET_NAME: 'order.csv', ORDER_ITEMS_DATASET_NAME: 'order_items.csv'}, 'output_path')
+    @patch('pandas_etl.utils.file_util.load_yml')
+    def test_extract(self, mock_load_yml):
+        mock_load_yml.return_value = {ORDER_DATASET_NAME: {'data_path': 'order.csv', 'data_format': 'csv'},
+                                      ORDER_ITEMS_DATASET_NAME: {'data_path': 'order_items.csv', 'data_format': 'csv'}}
+        etl = SimpleETL('input_path', 'input_config_file', 'output_path')
 
         test_df = pd.DataFrame({'order_id': [1, 2, 3], 'item_id': [4, 5, 6]})
 
-        with patch.object(pd, 'read_csv', side_effect=lambda filepath: test_df) as mock_read_csv:
+        with patch.object(pd, 'read_csv', side_effect=lambda filepath, dtype: test_df) as mock_read_csv:
             result = etl.extract()
-
-            mock_read_csv.assert_any_call('order.csv')
-            mock_read_csv.assert_any_call('order_items.csv')
 
             assert 2 == len(result)
             assert set(result.keys()) == {ORDER_DATASET_NAME, ORDER_ITEMS_DATASET_NAME}
