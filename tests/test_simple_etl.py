@@ -8,19 +8,17 @@ from pandas_etl.simple_etl import SimpleETL
 
 
 class TestSimpleETL:
-    @patch('pandas_etl.utils.file_util.load_yml')
-    def test_validate(self, mock_load_yml):
-        mock_load_yml.return_value = {'order': 'order.csv'}
-        etl = SimpleETL('input_path', 'input_config_file', 'output_path')
+    def test_validate(self):
+        input_config = {'order': 'order.csv'}
+        etl = SimpleETL('input_path', input_config, 'output_path', 'data_mapping_config', 'output_config')
         with pytest.raises(ValueError) as ve:
             etl.run()
         assert 'input dataset path must more than 2' in str(ve.value)
 
-    @patch('pandas_etl.utils.file_util.load_yml')
-    def test_extract(self, mock_load_yml):
-        mock_load_yml.return_value = {ORDER_DATASET_NAME: {'data_path': 'order.csv', 'data_format': 'csv'},
+    def test_extract(self):
+        input_config = {ORDER_DATASET_NAME: {'data_path': 'order.csv', 'data_format': 'csv'},
                                       ORDER_ITEMS_DATASET_NAME: {'data_path': 'order_items.csv', 'data_format': 'csv'}}
-        etl = SimpleETL('input_path', 'input_config_file', 'output_path')
+        etl = SimpleETL('input_path', input_config, 'output_path','data_mapping_config', 'output_config')
 
         test_df = pd.DataFrame({'order_id': [1, 2, 3], 'item_id': [4, 5, 6]})
 
