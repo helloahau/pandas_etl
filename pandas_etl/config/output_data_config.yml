@@ -1,0 +1,6 @@
+simple_etf:
+  target_location: simple_etf_result
+  target_format: parquet
+  partition_cols: ['product_id']
+  write_options:
+    index: true

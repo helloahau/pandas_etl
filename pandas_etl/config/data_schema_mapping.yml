@@ -1,0 +1,12 @@
+order:
+  rename_columns:
+    order_purchase_timestamp: purchase_time
+  select_columns: ['order_id','customer_id','order_status','purchase_time','order_estimated_delivery_date']
+
+product:
+  types:
+    product_photos_qty: int
+  fill_null: {'product_photos_qty': 0}
+
+
+

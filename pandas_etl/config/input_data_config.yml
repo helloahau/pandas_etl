@@ -1,0 +1,26 @@
+order:
+  data_path: olist_orders_dataset.csv
+  schema:
+    order_id: str
+    customer_id: str
+    order_status: str
+    order_purchase_timestamp: object
+    order_approved_at: object
+    order_delivered_carrier_date: object
+    order_delivered_customer_date: object
+    order_estimated_delivery_date: object
+
+  data_format: csv #json, parquet, (spark can support more data type and format, like delta, stream)
+  read_options: 
+    header: 0
+    parse_dates: ['order_purchase_timestamp', 'order_approved_at',
+                'order_delivered_carrier_date', 'order_delivered_customer_date',
+                'order_estimated_delivery_date']
+
+order_item:
+  data_path: olist_order_items_dataset.csv
+  data_format: csv
+
+product:
+  data_path: olist_products_dataset.csv
+  data_format: csv
